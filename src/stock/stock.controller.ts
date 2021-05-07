@@ -4,6 +4,9 @@ import {
   Controller,
   Delete,
   Get,
+  HttpException,
+  HttpStatus,
+  NotFoundException,
   Param,
   Patch,
   Post,
@@ -16,6 +19,13 @@ import {
 export class StockController {
   @Get()
   getStocks() {
+    // throw new HttpException(
+    //   {
+    //     status: HttpStatus.FORBIDDEN,
+    //     error: 'This is a custom message',
+    //   },
+    //   HttpStatus.FORBIDDEN,
+    // );
     return [1, 2, 3];
   }
 
@@ -45,7 +55,7 @@ export class StockController {
 
   //put ยิงข้อมูลทั้งหมด
   //patch ยิงเฉพาะส่วนที่ต้องการ
-  @Put('/:id') 
+  @Put('/:id')
   UpdateStockById(
     @Param('id') id: number, //param or body ก็ได้ แต่จะเรียกผ่าน Body ได้ก็ต่อเมื่อมีการประกาศตัวแปรหรือ field ใน Dto เท่านั้น
     @Body() createStockDto: CreateStockDto,

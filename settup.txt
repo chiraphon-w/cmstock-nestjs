@@ -1,1 +1,1 @@
-npm add class-transformer class-validator
+npm install class-transformer class-validator
