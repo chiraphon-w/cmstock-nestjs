@@ -1,4 +1,3 @@
 npm install class-transformer class-validator
 npm install change-case --save
-npm install typeorm pg
-npm install rxjs @nestjs/typeorm
+npm install rxjs @nestjs/typeorm typeorm pg

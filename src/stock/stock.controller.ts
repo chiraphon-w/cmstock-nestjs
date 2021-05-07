@@ -15,9 +15,15 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { ChangeStringCasePipe } from 'src/pipes/change-string-case.pipe';
+import { ProductRepository } from './product.repository';
+import { Product } from './product.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Controller('stock') //path 'stock'
 export class StockController {
+  constructor(
+    @InjectRepository(Product) private productRepository: ProductRepository,
+  ) {}
   @Get()
   getStocks() {
     // throw new HttpException(
@@ -27,7 +33,8 @@ export class StockController {
     //   },
     //   HttpStatus.FORBIDDEN,
     // );
-    return [1, 2, 3];
+    // return [1, 2, 3];
+    return this.productRepository.find(); //find จะ return เป็น Array
   }
 
   //   @Post()
@@ -38,10 +45,16 @@ export class StockController {
   // custom pipes ถูกเรียกก่อน
   @Post()
   @UsePipes(ValidationPipe) // ใช้เพื่อตรวจสอบว่าข้อมูลที่ส่งมาผ่าน dto ครบถ้วนถูกต้องไหม
-  @UsePipes(new ChangeStringCasePipe)
+  @UsePipes(new ChangeStringCasePipe())
   addStock(@Body() createStockDto: CreateStockDto) {
     const { name, price, stock } = createStockDto;
     console.log(`name: ${name}, price: ${price}, stock: ${stock}`);
+
+    const product = new Product();
+    product.name = name;
+    product.price = price;
+    product.stock = stock;
+    product.save(); //บันทึกข้อมูลเข้า DB
   }
 
   @Get('/:id') //ยิง id เข้ามา
