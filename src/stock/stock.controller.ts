@@ -14,6 +14,7 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { ChangeStringCasePipe } from 'src/pipes/change-string-case.pipe';
 
 @Controller('stock') //path 'stock'
 export class StockController {
@@ -34,8 +35,10 @@ export class StockController {
   //     console.log(`name: ${name}, price: ${price}`);
   //   }
 
+  // custom pipes ถูกเรียกก่อน
   @Post()
-  @UsePipes(ValidationPipe) // ใช้เพื่อตรวจสอบว่าข้อมูลที่ส่งมาผ่าน dto ครบถ้วนไหม
+  @UsePipes(ValidationPipe) // ใช้เพื่อตรวจสอบว่าข้อมูลที่ส่งมาผ่าน dto ครบถ้วนถูกต้องไหม
+  @UsePipes(new ChangeStringCasePipe)
   addStock(@Body() createStockDto: CreateStockDto) {
     const { name, price, stock } = createStockDto;
     console.log(`name: ${name}, price: ${price}, stock: ${stock}`);

@@ -1,1 +1,2 @@
 npm install class-transformer class-validator
+npm install change-case --save
