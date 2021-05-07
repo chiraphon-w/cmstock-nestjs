@@ -22,13 +22,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 @Controller('stock') //path 'stock'
 export class StockController {
   constructor(
-    @InjectRepository(Product) private productRepository: ProductRepository,
-  ) {} 
+    @InjectRepository(ProductRepository)
+    private productRepository: ProductRepository,
+  ) {}
   //InjectRepository ดึง entity มาให้ productRepository ใช้
   //Inject เป็นการ inject class มาใข้ใน controller
   @Get()
   getStocks() {
-       // throw new HttpException(
+    // throw new HttpException(
     //   {
     //     status: HttpStatus.FORBIDDEN,
     //     error: 'This is a custom message',
@@ -39,7 +40,7 @@ export class StockController {
     return this.productRepository.find(); //find จะ return เป็น Array // ต้องประกาศ constructor(@InjectRepository) ก่อน
   }
 
-    //   @Post()
+  //   @Post()
   //   addStock(@Body('name') name: string, @Body('price') price: number) {
   //     console.log(`name: ${name}, price: ${price}`);
   //   }
@@ -49,14 +50,7 @@ export class StockController {
   @UsePipes(ValidationPipe) // ใช้เพื่อตรวจสอบว่าข้อมูลที่ส่งมาผ่าน dto ครบถ้วนถูกต้องไหม
   @UsePipes(new ChangeStringCasePipe())
   addStock(@Body() createStockDto: CreateStockDto) {
-    const { name, price, stock } = createStockDto;
-    console.log(`name: ${name}, price: ${price}, stock: ${stock}`);
-
-    const product = new Product();
-    product.name = name;
-    product.price = price;
-    product.stock = stock;
-    product.save(); //บันทึกข้อมูลเข้า DB
+    return this.productRepository.createProduct(createStockDto);
   }
 
   @Get('/:id') //ยิง id เข้ามา
