@@ -34,7 +34,7 @@ export class StockController {
     //   HttpStatus.FORBIDDEN,
     // );
     // return [1, 2, 3];
-    return this.productRepository.find(); //find จะ return เป็น Array
+    return this.productRepository.find(); //find จะ return เป็น Array // ต้องประกาศ constructor(@InjectRepository) ก่อน
   }
 
   //   @Post()
