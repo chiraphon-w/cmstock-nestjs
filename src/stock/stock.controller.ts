@@ -28,9 +28,21 @@ export class StockController {
   //Inject เป็นการ inject class มาใข้ใน controller
   @Get()
   getStocks() {
+       // throw new HttpException(
+    //   {
+    //     status: HttpStatus.FORBIDDEN,
+    //     error: 'This is a custom message',
+    //   },
+    //   HttpStatus.FORBIDDEN,
+    // );
+    // return [1, 2, 3];
     return this.productRepository.find(); //find จะ return เป็น Array // ต้องประกาศ constructor(@InjectRepository) ก่อน
   }
 
+    //   @Post()
+  //   addStock(@Body('name') name: string, @Body('price') price: number) {
+  //     console.log(`name: ${name}, price: ${price}`);
+  //   }
 
   // custom pipes ถูกเรียกก่อน
   @Post()
