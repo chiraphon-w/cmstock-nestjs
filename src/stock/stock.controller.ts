@@ -55,9 +55,11 @@ export class StockController {
   //@UseInterceptors(FileInterceptor('file'))
   @UsePipes(ValidationPipe)
   @UsePipes(new ChangeStringCasePipe())
-  addStock(@UploadedFile() file, @Body() createStockDto: CreateStockDto) {
-    console.log(file);
-    return this.stockService.createProduct(createStockDto);
+  async addStock(@UploadedFile() file, @Body() createStockDto: CreateStockDto) {
+    const product = await this.stockService.createProduct(createStockDto);
+    const fileExtension = extname(file.filename);
+    fsExtra.move(file.path, `upload/${product.id}` + fileExtension);
+    return product;
   }
 
   @Get('/:id') //ยิง id เข้ามา
