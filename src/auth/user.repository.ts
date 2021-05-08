@@ -5,6 +5,7 @@ import {
   ConflictException,
   InternalServerErrorException,
 } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
 
 // 1 repo = 1 table
 // config entity แล้ว ต้องมาเรียกใช้ใน repo
@@ -14,12 +15,12 @@ import {
 export class UserRepository extends Repository<User> {
   async createUser(userCredentialDto: UserCredentialDto) {
     const { username, password } = userCredentialDto;
-    // async createUser(userCredentialDto: UserCredentialDto) {
-    //   const { username, password } = userCredentialDto;
+    const salt = bcrypt.genSaltSync();
 
     const user = new User();
     user.username = username;
-    user.password = password;
+    user.salt = salt;
+    user.password = await this.hashPassword(password, salt);
     try {
       await user.save();
     } catch (error) {
@@ -34,18 +35,10 @@ export class UserRepository extends Repository<User> {
       }
     }
 
-    // try {
-    //   await user.save();
-    // } catch (error) {
-    //   console.log(error);
-    //   if (error.code === '23502') {
-    //     throw new ConflictException(
-    //       'Error, because this username already exist!',
-    //     );
-    //   } else {
-    //     throw new InternalServerErrorException();
-    //   }
-    // }
     return user;
+  }
+
+  async hashPassword(password: string, salt: string) {
+    return bcrypt.hash(password, salt);
   }
 }
