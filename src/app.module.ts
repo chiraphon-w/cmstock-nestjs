@@ -4,10 +4,11 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { StockModule } from './stock/stock.module';
 import { typeOrmConfig } from './config/typeorm.config';
+import { AuthModule } from './auth/auth.module';
 
 //กลุ่มของ function
 @Module({
-  imports: [StockModule, TypeOrmModule.forRoot(typeOrmConfig)],
+  imports: [StockModule, TypeOrmModule.forRoot(typeOrmConfig), AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })
