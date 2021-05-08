@@ -15,6 +15,9 @@ import {
 } from '@nestjs/common';
 import { ChangeStringCasePipe } from 'src/pipes/change-string-case.pipe';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import * as fsExtra from 'fs-extra';
+import { extname } from 'path';
 
 @Controller('stock') //path 'stock'
 export class StockController {
@@ -34,8 +37,22 @@ export class StockController {
   //   return this.stockService.createProduct(createStockDto);
   // }
 
-  @Post('/upload')
-  @UseInterceptors(FileInterceptor('file'))
+  @Post()
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: './upload',
+        filename: (req, file, cb) => {
+          const randomName = Array(32)
+            .fill(null)
+            .map(() => Math.round(Math.random() * 16).toString(16))
+            .join('');
+          return cb(null, `${randomName}${extname(file.originalname)}`);
+        },
+      }),
+    }),
+  )
+  //@UseInterceptors(FileInterceptor('file'))
   @UsePipes(ValidationPipe)
   @UsePipes(new ChangeStringCasePipe())
   addStock(@UploadedFile() file, @Body() createStockDto: CreateStockDto) {

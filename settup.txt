@@ -1,3 +1,4 @@
 npm install class-transformer class-validator
 npm install change-case --save
 npm install rxjs @nestjs/typeorm typeorm pg
+npm install multer fs-extra
