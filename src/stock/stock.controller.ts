@@ -68,13 +68,12 @@ export class StockController {
   @Get('/:id') //ยิง id เข้ามา
   getStockById(@Param('id') id: number) {
     //Param คือการ map id
-    return `Get id is ${id}`;
+    return this.stockService.getProductById(id);
   }
 
-  @Delete('/:id') //ยิง id เข้ามา
+  @Delete('/:id')
   deleteStockById(@Param('id') id: number) {
-    //Param คือการ map id
-    return `Delete id is ${id}`;
+    return this.stockService.deleteProduct(id);
   }
 
   //put ยิงข้อมูลทั้งหมด
