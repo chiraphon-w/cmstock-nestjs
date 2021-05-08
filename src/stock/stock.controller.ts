@@ -9,6 +9,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UploadedFile,
   UseInterceptors,
   UsePipes,
@@ -25,8 +26,8 @@ export class StockController {
   constructor(private stockService: StockService) {} //เรียกใช้ StockService
 
   @Get()
-  getStocks() {
-    return this.stockService.getProducts();
+  getStocks(@Query('keyword') keyword: string) {
+    return this.stockService.getProducts(keyword);
   }
 
   // custom pipes ถูกเรียกก่อน

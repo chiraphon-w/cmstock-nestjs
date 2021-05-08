@@ -18,8 +18,14 @@ export class StockService {
     return await this.productRepository.createProduct(createStockDto); // รับค่าจาก createProduct ใน productRepository มาใส่ createStockDto // data = product
   }
 
-  getProducts() {
-    return this.productRepository.find(); //find จะ return เป็น Array // ต้องประกาศ constructor(@InjectRepository) ก่อน
+  getProducts(keyword: string) {
+    if (keyword) {
+      const query = this.productRepository.createQueryBuilder('product');
+      query.andWhere('product.name LIKE :keyword', { keyword: `%${keyword}%` }); //filter เอาคำตาม keyword
+      return query.getMany();
+    } else {
+      return this.productRepository.find(); //find จะ return เป็น Array // ต้องประกาศ constructor(@InjectRepository) ก่อน
+    }
   }
 
   async getProductById(id: number) {
@@ -43,7 +49,7 @@ export class StockService {
     product.name = name;
     product.price = price;
     product.stock = stock;
-    await product.save(); 
+    await product.save();
     return product;
   }
 }
