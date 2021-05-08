@@ -1,3 +1,4 @@
+import { Product } from './product.entity';
 import { StockService } from './stock.service';
 import { CreateStockDto } from './dto/create-stock-dto';
 import {
@@ -76,13 +77,44 @@ export class StockController {
     return this.stockService.deleteProduct(id);
   }
 
-  //put ยิงข้อมูลทั้งหมด
-  //patch ยิงเฉพาะส่วนที่ต้องการ
   @Put('/:id')
-  updateStockById(
-    @Param('id') id: number, //param or body ก็ได้ แต่จะเรียกผ่าน Body ได้ก็ต่อเมื่อมีการประกาศตัวแปรหรือ field ใน Dto เท่านั้น
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: './upload',
+        filename: (req, file, cb) => {
+          const randomName = Array(32)
+            .fill(null)
+            .map(() => Math.round(Math.random() * 16).toString(16))
+            .join('');
+          return cb(null, `${randomName}${extname(file.originalname)}`);
+        },
+      }),
+    }),
+  )
+  async updateStockById(
+    @UploadedFile() file,
+    @Param('id') id: number,
     @Body() createStockDto: CreateStockDto,
   ) {
-    return this.stockService.updateProduct(id, createStockDto);
+    const product = await this.stockService.updateProduct(id, createStockDto);
+    if (file) {
+      fsExtra.remove(`upload/${product.image}`);
+      const imageFile = id + extname(file.filename);
+      fsExtra.move(file.path, `upload/${imageFile}`);
+      product.image = imageFile;
+      await product.save();
+    }
+    return product;
   }
+
+  // put ยิงข้อมูลทั้งหมด
+  // patch ยิงเฉพาะส่วนที่ต้องการ
+  // @Put('/:id')
+  // updateStockById(
+  //   @Param('id') id: number, //param or body ก็ได้ แต่จะเรียกผ่าน Body ได้ก็ต่อเมื่อมีการประกาศตัวแปรหรือ field ใน Dto เท่านั้น
+  //   @Body() createStockDto: CreateStockDto,
+  // ) {
+  //   return this.stockService.updateProduct(id, createStockDto);
+  // }
 }
