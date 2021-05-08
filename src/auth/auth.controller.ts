@@ -6,7 +6,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { UserCredentailDto } from './dto/user-credential.dto';
+import { UserCredentialDto } from './dto/user-credential.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -14,13 +14,13 @@ export class AuthController {
 
   @Post('/signup')
   @UsePipes(ValidationPipe)
-  signUp(@Body() userCredentailDto: UserCredentailDto) {
-    console.log(userCredentailDto);
-    this.authenService.signUp(userCredentailDto);
+  signUp(@Body() userCredentialDto: UserCredentialDto) {
+    console.log(userCredentialDto);
+    return this.authenService.signUp(userCredentialDto);
   }
 
   @Post('/signin')
-  signIn(@Body() userCredentailDto: UserCredentailDto) {
-    console.log(userCredentailDto);
+  signIn(@Body() userCredentialDto: UserCredentialDto) {
+    console.log(userCredentialDto);
   }
 }

@@ -3,6 +3,7 @@ import {
   Column,
   Entity,
   PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 
@@ -11,6 +12,7 @@ import {
 // entity กำหนดว่าจะมี column อะไรบ้าง
 // เป็น schema
 @Entity()
+@Unique(['username'])
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
