@@ -16,6 +16,7 @@ export class AuthController {
   @UsePipes(ValidationPipe)
   signUp(@Body() userCredentailDto: UserCredentailDto) {
     console.log(userCredentailDto);
+    this.authenService.signUp(userCredentailDto);
   }
 
   @Post('/signin')
