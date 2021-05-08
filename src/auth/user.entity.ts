@@ -6,6 +6,7 @@ import {
   Unique,
   UpdateDateColumn,
 } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 // map ข้อมูลกับตัว DB
 // 1 table แทนด้วย 1 repo 1 entity
@@ -25,4 +26,9 @@ export class User extends BaseEntity {
 
   @Column()
   salt: string;
+
+  async verifyPassword(password) {
+    const hashPassword = await bcrypt.hash(password, this.salt);
+    return this.password === hashPassword;
+  }
 }

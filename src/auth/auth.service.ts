@@ -7,9 +7,13 @@ import { User } from './user.entity';
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(UserRepository) private userRepository: UserRepository,
+    @InjectRepository(UserRepository) private  userRepository: UserRepository,
   ) {}
   signUp(userCredentialDto: UserCredentialDto) {
     return this.userRepository.createUser(userCredentialDto);
+  }
+
+  signIn(userCredentialDto: UserCredentialDto) {
+    return this.userRepository.verifyUserPassword(userCredentialDto);
   }
 }
