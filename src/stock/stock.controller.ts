@@ -79,13 +79,10 @@ export class StockController {
   //put ยิงข้อมูลทั้งหมด
   //patch ยิงเฉพาะส่วนที่ต้องการ
   @Put('/:id')
-  UpdateStockById(
+  updateStockById(
     @Param('id') id: number, //param or body ก็ได้ แต่จะเรียกผ่าน Body ได้ก็ต่อเมื่อมีการประกาศตัวแปรหรือ field ใน Dto เท่านั้น
     @Body() createStockDto: CreateStockDto,
   ) {
-    const { name, price, stock } = createStockDto;
-    console.log(`name: ${name}, price: ${price}, stock: ${stock}`);
-
-    return `Update id is ${id}, ${name}, ${price}, ${stock}`;
+    return this.stockService.updateProduct(id, createStockDto);
   }
 }
