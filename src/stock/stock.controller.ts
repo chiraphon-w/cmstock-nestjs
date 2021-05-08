@@ -8,10 +8,13 @@ import {
   Param,
   Post,
   Put,
+  UploadedFile,
+  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { ChangeStringCasePipe } from 'src/pipes/change-string-case.pipe';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('stock') //path 'stock'
 export class StockController {
@@ -23,11 +26,20 @@ export class StockController {
   }
 
   // custom pipes ถูกเรียกก่อน
-  @Post()
-  @UsePipes(ValidationPipe) // ใช้เพื่อตรวจสอบว่าข้อมูลที่ส่งมาผ่าน dto ครบถ้วนถูกต้องไหม
+  // @Post()
+  // @UsePipes(ValidationPipe) // ใช้เพื่อตรวจสอบว่าข้อมูลที่ส่งมาผ่าน dto ครบถ้วนถูกต้องไหม
+  // @UsePipes(new ChangeStringCasePipe())
+  // addStock(@Body() createStockDto: CreateStockDto) {
+  //   // console.log('frist');
+  //   return this.stockService.createProduct(createStockDto);
+  // }
+
+  @Post('/upload')
+  @UseInterceptors(FileInterceptor('file'))
+  @UsePipes(ValidationPipe)
   @UsePipes(new ChangeStringCasePipe())
-  addStock(@Body() createStockDto: CreateStockDto) {
-    // console.log('frist');
+  addStock(@UploadedFile() file, @Body() createStockDto: CreateStockDto) {
+    console.log(file);
     return this.stockService.createProduct(createStockDto);
   }
 
