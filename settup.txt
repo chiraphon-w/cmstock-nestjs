@@ -2,3 +2,6 @@ npm install class-transformer class-validator
 npm install change-case --save
 npm install rxjs @nestjs/typeorm typeorm pg
 npm install multer fs-extra
+
+
+https://github.com/typeorm/typeorm/blob/master/docs/entities.md#column-types-for-postgres
