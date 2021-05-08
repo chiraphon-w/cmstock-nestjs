@@ -5,17 +5,21 @@ import { CreateStockDto } from './dto/create-stock-dto';
 
 @Injectable()
 export class StockService {
-  //InjectRepository ดึง entity มาให้ productRepository ใช้
-  //Inject เป็นการ inject class มาใข้ใน controller
+  // เรียกใช้ ProductRepository
+  // private เป็นการประกาศตัวแปรขึ้นมา
   constructor(
     @InjectRepository(ProductRepository)
     private productRepository: ProductRepository,
   ) {}
-  createProduct(createStockDto: CreateStockDto) {
-    return this.productRepository.createProduct(createStockDto); 
+  // productRepository = [{name:xx, price:xx, stock:xx}, {....}]
+  async createProduct(createStockDto: CreateStockDto) {
+    // console.log('second');
+    const data = await this.productRepository.createProduct(createStockDto); // รับค่าจาก createProduct ใน productRepository มาใส่ createStockDto // data = product
+    return data;
   }
 
   getProducts() {
     return this.productRepository.find(); //find จะ return เป็น Array // ต้องประกาศ constructor(@InjectRepository) ก่อน
   }
+
 }

@@ -5,40 +5,29 @@ import {
   Controller,
   Delete,
   Get,
-  HttpException,
-  HttpStatus,
-  NotFoundException,
   Param,
-  Patch,
   Post,
   Put,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { ChangeStringCasePipe } from 'src/pipes/change-string-case.pipe';
-import { ProductRepository } from './product.repository';
-import { Product } from './product.entity';
-import { InjectRepository } from '@nestjs/typeorm';
 
 @Controller('stock') //path 'stock'
 export class StockController {
-  constructor(private stockService: StockService) {}
+  constructor(private stockService: StockService) {} //เรียกใช้ StockService
 
   @Get()
   getStocks() {
-    return this.stockService.getProducts(); 
+    return this.stockService.getProducts();
   }
-
-  //   @Post()
-  //   addStock(@Body('name') name: string, @Body('price') price: number) {
-  //     console.log(`name: ${name}, price: ${price}`);
-  //   }
 
   // custom pipes ถูกเรียกก่อน
   @Post()
   @UsePipes(ValidationPipe) // ใช้เพื่อตรวจสอบว่าข้อมูลที่ส่งมาผ่าน dto ครบถ้วนถูกต้องไหม
   @UsePipes(new ChangeStringCasePipe())
   addStock(@Body() createStockDto: CreateStockDto) {
+    // console.log('frist');
     return this.stockService.createProduct(createStockDto);
   }
 
