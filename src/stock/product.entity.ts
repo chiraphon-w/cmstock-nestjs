@@ -4,7 +4,7 @@ import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 // 1 table แทนด้วย 1 repo 1 entity
 // entity กำหนดว่าจะมี column อะไรบ้าง
 // เป็น schema
-@Entity({name: 'product'}) //optional set naming
+@Entity({ name: 'product' }) //optional set naming
 export class Product extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -17,4 +17,7 @@ export class Product extends BaseEntity {
 
   @Column()
   stock: number;
+
+  @Column({ default: 'noimage' })
+  image: string;
 }

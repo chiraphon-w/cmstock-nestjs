@@ -57,8 +57,11 @@ export class StockController {
   @UsePipes(new ChangeStringCasePipe())
   async addStock(@UploadedFile() file, @Body() createStockDto: CreateStockDto) {
     const product = await this.stockService.createProduct(createStockDto);
-    const fileExtension = extname(file.filename);
-    fsExtra.move(file.path, `upload/${product.id}` + fileExtension);
+
+    const imageFile = product.id + extname(file.filename);
+    fsExtra.move(file.path, `upload/${imageFile}`);
+    product.image = imageFile;
+    await product.save();
     return product;
   }
 
