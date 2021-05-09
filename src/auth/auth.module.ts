@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
-import { PassportModule } from '@nestjs/passport';
+import { PassportModule, PassportStrategy } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { AuthJwtStrategy } from './auth.jwt.strategy';
 import { UserRepository } from './user.repository';
 
 @Module({
@@ -18,6 +19,7 @@ import { UserRepository } from './user.repository';
     TypeOrmModule.forFeature([UserRepository]),
   ],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [AuthService, AuthJwtStrategy],
+  exports: [AuthJwtStrategy, PassportModule]
 })
 export class AuthModule {}
