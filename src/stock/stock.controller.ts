@@ -21,8 +21,10 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import * as fsExtra from 'fs-extra';
 import { extname } from 'path';
+import { LoggerInterceptor } from 'src/logger.interceptor';
 
 @Controller('stock') //path 'stock'
+@UseInterceptors(LoggerInterceptor)
 export class StockController {
   constructor(private stockService: StockService) {} //เรียกใช้ StockService
 
