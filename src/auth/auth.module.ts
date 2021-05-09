@@ -11,7 +11,7 @@ import { UserRepository } from './user.repository';
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
-      secret: 'chira123', // รหัสลับที่ใช้ในการ endcode
+      secret: 'chira123', // รหัสลับที่ใช้ในการ encoded
       signOptions: {
         expiresIn: 5000,
       },
