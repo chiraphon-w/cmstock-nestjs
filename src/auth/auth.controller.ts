@@ -11,6 +11,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { UserCredentialDto } from './dto/user-credential.dto';
+import { GetUsername } from './get-username-decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -31,9 +32,11 @@ export class AuthController {
 
   @Get('/test')
   @UseGuards(AuthGuard())
-  test(@Req() req) {
-    console.log(req);
+  test(@Req() req, @GetUsername() username) {
+    // console.log(req);
     // user ที่รีเทิร์นมาจาก authStrategy
-    return req.user.username;
+    // return req.user.username;
+
+    return username;
   }
 }
