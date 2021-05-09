@@ -41,10 +41,10 @@ export class UserRepository extends Repository<User> {
   async verifyUserPassword(userCredentialDto: UserCredentialDto) {
     const { username, password } = userCredentialDto;
     const user = await this.findOne({ username }); //ต้องการหา column username ที่เท่ากับ username ที่รับเข้ามา
-    if (user && (await user.verifyPassword(password))) {
+    if (user && await user.verifyPassword(password)) {
       return user.username;
     } else {
-      return 'invalid';
+      return null;
     }
   }
 
