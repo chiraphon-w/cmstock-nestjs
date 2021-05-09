@@ -10,6 +10,7 @@ import {
   Post,
   Put,
   Query,
+  Req,
   UploadedFile,
   UseInterceptors,
   UsePipes,
@@ -26,7 +27,8 @@ export class StockController {
   constructor(private stockService: StockService) {} //เรียกใช้ StockService
 
   @Get()
-  getStocks(@Query('keyword') keyword: string) {
+  getStocks(@Query('keyword') keyword: string, @Req() req) {
+    // console.log('Added by Middleware : ', req.timestamp);
     return this.stockService.getProducts(keyword);
   }
 

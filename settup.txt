@@ -28,6 +28,11 @@ or $nest g s auth --no-spec
 create controller
 $nest g co auth --no-spec
 
+create Middleware
+$nest g mi logger --no-spec
+https://docs.nestjs.com/middleware
+
+
 uuid
 $npm i uuid
 in service
