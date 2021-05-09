@@ -3,6 +3,7 @@ npm install change-case --save
 npm install rxjs @nestjs/typeorm typeorm pg
 npm install multer fs-extra
 npm install bcrypt
+npm install @nestjs/jwt @nestjs/passport passport passport-jwt
 
 ##########################################
 NestJS
