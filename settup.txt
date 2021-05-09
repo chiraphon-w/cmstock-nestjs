@@ -36,6 +36,17 @@ create Interceptors
 $nest g in logger --no-spec
 https://docs.nestjs.com/interceptors
 
+create Guards
+$nest g gu my --no-spec
+https://docs.nestjs.com/guards
+
+Middleware >> ตัวกลางคอยตัดสินใจ ดักจับ ใส่เงื่อนไขได้ เฉพาะขาเข้า
+Interceptor >> ตัวกลางคอยตัดสินใจ ดักจับ ใส่เงื่อนไขได้ ทั้งขาเข้าและออก ทำงานหลัง Middleware 
+Guard >> ป้องกันไม่ให้ Route handler เข้าถึงได้ // return true >> วิ่งเข้าไปได้// return false >> วิ่งเข้าไปไม่ได้ // ถูกเรียกหลัง middleware ก่อน interceptor
+เรียงลำดับการถูกเรียก ก่อนไปหลัง
+Middleware > Guard > Interceptor
+
+
 uuid
 $npm i uuid
 in service

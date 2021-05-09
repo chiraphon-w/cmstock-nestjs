@@ -12,6 +12,7 @@ import {
   Query,
   Req,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
   UsePipes,
   ValidationPipe,
@@ -22,9 +23,11 @@ import { diskStorage } from 'multer';
 import * as fsExtra from 'fs-extra';
 import { extname } from 'path';
 import { LoggerInterceptor } from 'src/logger.interceptor';
+import { MyGuard } from 'src/my.guard';
 
 @Controller('stock') //path 'stock'
 @UseInterceptors(LoggerInterceptor)
+@UseGuards(MyGuard)
 export class StockController {
   constructor(private stockService: StockService) {} //เรียกใช้ StockService
 
